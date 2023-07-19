@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x' # Update to your desired Node.js version
+          node-version: '14.x' # Update to your desired Node.js version
 
       - name: Install Expo CLI
         run: npm install -g expo-cli
@@ -26,6 +26,11 @@ jobs:
 
       - name: Install project dependencies
         run: npm install
+
+      - name: Log in to Expo
+        run: |
+          echo $EXPO_USERNAME | eas login
+          echo $EXPO_PASSWORD | eas whoami # This step is optional, to verify the login information
 
       - name: Build Android app
         run: eas build --platform android --local --profile development
