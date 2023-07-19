@@ -17,10 +17,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'  # Replace with your desired Node.js version
+          node-version: '18.x'  # Replace with your desired Node.js version
 
       - name: Install Expo CLI
-        run: npm install -g expo-cli
+        run: npm install -g expo-cli@latest
 
       - name: Install Dependencies
         run: expo install  # Replace with your package manager (e.g., npm install)
