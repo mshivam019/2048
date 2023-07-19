@@ -23,7 +23,7 @@ jobs:
         run: npm install -g expo-cli@latest
 
       - name: Install Dependencies
-        run: expo install  # Replace with your package manager (e.g., npm install)
+        run: yarn install  # Replace with your package manager (e.g., npm install)
 
       - name: Build Android APK
         run: expo build:android --release-channel production --non-interactive
