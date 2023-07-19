@@ -5,5 +5,17 @@
   "name": "2048",
   "short_name": "2048",
   "start_url": "/?utm_source=web_app_manifest",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "itunes",
+      "id": "com.mshivam019.twozerofoureight"
+    },
+    {
+      "platform": "play",
+      "url": "http://play.google.com/store/apps/details?id=com.mshivam019.twozerofoureight",
+      "id": "com.mshivam019.twozerofoureight"
+    }
+  ],
+  "prefer_related_applications": true
 }
