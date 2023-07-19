@@ -1,0 +1,9 @@
+{
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "lang": "en",
+  "name": "2048",
+  "short_name": "2048",
+  "start_url": "/?utm_source=web_app_manifest",
+  "orientation": "portrait"
+}
