@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet,Keyboard,Platform } from 'react-native';
 import { PanGestureHandler, State, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import useGameLogic from '../utils/useGameLogic';
@@ -178,11 +178,27 @@ const GameBoard = () => {
     }
   };
   
+   
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyboardEvent);
-    return () => {
-      window.removeEventListener('keydown', handleKeyboardEvent);
-    };
+    if (Platform.OS === 'web') {
+      // Web specific code goes here
+      window.addEventListener('keydown', handleKeyboardEvent);
+
+      // Clean up the listener when the component unmounts
+      return () => {
+        window.removeEventListener('keydown', handleKeyboardEvent);
+      };
+    } else {
+      // React Native specific code goes here
+      const { Keyboard } = require('react-native');
+
+      Keyboard.addListener('keydown', handleKeyboardEvent);
+
+      // Clean up the listener when the component unmounts
+      return () => {
+        Keyboard.removeListener('keydown', handleKeyboardEvent);
+      };
+    }
   }, []);
 
   return (
