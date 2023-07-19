@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-
+import 'react-native-reanimated';
 import GameBoard from './components/GameBoard';
 
 const App = () => {
