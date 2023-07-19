@@ -13,22 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.x' # Update to your desired Node.js version
+          node-version: '18.x'
+          cache: yarn
 
-      - name: Install Expo CLI
-        run: npm install -g expo-cli
-
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: 'latest'
+          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install project dependencies
-        run: npm install
-
-      - name: Log in to Expo
-        run: expo login --non-interactive --username ${{ secrets.EXPO_TOKEN }}
+        run: yarn install
 
       - name: Build Android app
         run: eas build --platform android --local --profile development
