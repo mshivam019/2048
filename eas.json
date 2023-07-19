@@ -1,0 +1,11 @@
+{
+    "build": {
+      "production": {
+        "releaseChannel": "production",
+        "env": {
+          "ENV_VARIABLE": "production_value"
+        }
+      }
+    }
+  }
+  
