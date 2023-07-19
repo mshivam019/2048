@@ -1,0 +1,50 @@
+name: Expo Build
+
+on:
+  push:
+    branches:
+      - main # Change this to the branch you want to trigger the build
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: npm
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: 'latest'
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install expo-dev-client
+        run: npm install expo-dev-client --save-dev
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build on EAS
+        run: |
+          # Run the EAS build commands for Android and iOS
+          eas build --platform android --local --profile development
+          eas build --platform ios --local --profile development
+
+      - name: Upload Android APK to releases
+        uses: actions/upload-artifact@v2
+        with:
+          name: android
+          path: /path/to/android/build/apk # Replace with the actual path to your Android APK
+
+      - name: Upload iOS IPA to releases
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios
+          path: /path/to/ios/build/ipa # Replace with the actual path to your iOS IPA
