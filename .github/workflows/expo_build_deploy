@@ -1,0 +1,57 @@
+name: Expo Build & Deploy
+
+on:
+  push:
+    branches:
+      - main  # Replace with your main branch name
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'  # Replace with your desired Node.js version
+
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+
+      - name: Install Dependencies
+        run: expo install  # Replace with your package manager (e.g., npm install)
+
+      - name: Build Android APK
+        run: expo build:android --release-channel production --non-interactive
+
+      - name: Build iOS IPA
+        run: expo build:ios --release-channel production --non-interactive
+
+      - name: Build Web
+        run: expo build:web --no-pwa
+
+      - name: Create Android Release
+        uses: actions/create-release@v1
+        id: create_android_release
+        with:
+          files: app.apk
+          tag_name: android-release
+          release_name: Android Release
+
+      - name: Create iOS Release
+        uses: actions/create-release@v1
+        id: create_ios_release
+        with:
+          files: app.ipa
+          tag_name: ios-release
+          release_name: iOS Release
+
+      - name: Upload Web Build
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: web-build
