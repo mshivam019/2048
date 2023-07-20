@@ -33,18 +33,5 @@ jobs:
 
       - name: Build on EAS
         run: |
-          # Run the EAS build commands for Android and iOS
-          eas build --platform android --local --profile development
+          # Run the EAS build commands for iOS
           eas build --platform ios --local --profile development
-
-      - name: Upload Android APK to releases
-        uses: actions/upload-artifact@v2
-        with:
-          name: android
-          path: /path/to/android/build/apk # Replace with the actual path to your Android APK
-
-      - name: Upload iOS IPA to releases
-        uses: actions/upload-artifact@v2
-        with:
-          name: ios
-          path: /path/to/ios/build/ipa # Replace with the actual path to your iOS IPA
