@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet,Keyboard,Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet,Platform,Button,AppState,Keyboard } from 'react-native';
 import { PanGestureHandler, State, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { schedulePushNotification,cancelAllScheduledNotifications } from '../notification';
 
 import useGameLogic from '../utils/useGameLogic';
 
@@ -55,6 +56,26 @@ const GameBoard = () => {
     placeNewTile();
     placeNewTile();
     resetScore();
+  }, []);
+  useEffect(() => {
+    // Function to handle app state change (foreground/background)
+    const handleAppStateChange = (nextAppState) => {
+      if (nextAppState === 'active') {
+        // App is in the foreground, cancel all scheduled notifications
+        cancelAllScheduledNotifications();
+      }
+    };
+
+    // Add app state change event listener
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange
+    );
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      appStateSubscription.remove();
+    };
   }, []);
 
 
@@ -200,8 +221,19 @@ const GameBoard = () => {
       };
     }
   }, []);
+  const handleSendNotification = async () => {
+    console.log("triggered");
+
+    try {
+      const notificationId = await schedulePushNotification();
+      console.log("Notification scheduled with ID:", notificationId);
+    } catch (error) {
+      console.error("Failed to schedule notification:", error);
+    }
+  };
 
   return (
+    <View>
     <GestureHandlerRootView style={styles.container}>
       <View style={styles.board}>
         {board.map((row, rowIndex) => (
@@ -229,6 +261,10 @@ const GameBoard = () => {
         </PanGestureHandler>
       </View>
     </GestureHandlerRootView>
+    <View>
+       <Button title="notify" onPress={()=>handleSendNotification()}/>
+    </View>
+    </View>
   );
 };
 

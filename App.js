@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import GameBoard from './components/GameBoard';
+import Notification from './notification';
 
 const App = () => {
   return (
     <View style={styles.container}>
+      <Notification/>
       <GameBoard />
     </View>
   );
